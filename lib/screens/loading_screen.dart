@@ -1,6 +1,7 @@
 import 'package:climatee/screens/location_screen.dart';
 import 'package:climatee/services/location.dart';
 import 'package:climatee/services/networking.dart';
+import 'package:climatee/services/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,8 +16,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  static double lat = 0.0;
-  static double long = 0.0;
+  //static double lat = 0.0;
+  //static double long = 0.0;
   @override
   void initState() {
     super.initState();
@@ -24,14 +25,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getlocation() async {
-    Location location = Location();
-    await location.getLocation();
-    lat = location.latitude;
-    long = location.longitude;
-    var url =
-        "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=4544755d6912a7f7715a28b98fa22e5a";
-    NetworkHelp networkhelp = NetworkHelp(url);
-    var weatherdata = await networkhelp.getdata();
+    WeatherModel wea = WeatherModel();
+    var weatherdata = await wea.getlocationweather();
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return LocationScreen(locationWeather: weatherdata);
     }));

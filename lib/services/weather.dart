@@ -1,4 +1,29 @@
+import 'dart:async';
+
+import 'package:climatee/services/location.dart';
+import 'package:climatee/services/networking.dart';
+
 class WeatherModel {
+  Future<dynamic> getWeatherbyName(String cityname) async {
+    var url =
+        "https://api.openweathermap.org/data/2.5/weather?q=$cityname&appid=4544755d6912a7f7715a28b98fa22e5a&units=metric";
+    NetworkHelp networkhelp = NetworkHelp(url);
+    var weatherdata = await networkhelp.getdata();
+    return weatherdata;
+  }
+
+  Future<dynamic> getlocationweather() async {
+    Location location = Location();
+    await location.getLocation();
+    //lat = location.latitude;
+    //long = location.longitude;
+    var url =
+        "https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=4544755d6912a7f7715a28b98fa22e5a&units=metric";
+    NetworkHelp networkhelp = NetworkHelp(url);
+    var weatherdata = await networkhelp.getdata();
+    return weatherdata;
+  }
+
   String getWeatherIcon(int condition) {
     if (condition < 300) {
       return '🌩';
